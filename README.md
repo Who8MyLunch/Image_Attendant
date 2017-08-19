@@ -1,2 +1,2 @@
 # Image_Attendent
-Helpful image manipulation function with Numpy and Python
+Helpful image manipulation functions with Numpy and Python
