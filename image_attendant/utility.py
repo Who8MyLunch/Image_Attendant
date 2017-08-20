@@ -57,13 +57,39 @@ def setup_uint8(data, lohi=None):
 
 
 
-def collapse_alpha(data):
+def collapse_alpha(data_rgba):
     """Collapse alpha channel
-    """
-    data = np.asarray(data)
 
-    # not fully implemented yet
-    1/0
+    https://en.wikipedia.org/wiki/Alpha_compositing#Alpha_blending
+    """
+    data_rgba = np.asarray(data_rgba)
+
+    if data_rgba.dtype != np.uint8:
+        # Nothing to do
+        return data_rgba
+
+    if data_rgba.ndim != 3:
+        # Nothing to do
+        return data_rgba
+
+    if data_rgba.shape[2] != 4:
+        # Nothing to do
+        return data_rgba
+
+    # Convert to float, between 0 and 1.
+    data_rgba = data_rgba.astype(np.float32)/255
+
+    data_src = data_rgba[:, :, :3]
+    alpha_src = data_rgba[:, :, 3]
+
+    data_bkg = 1
+    data_rgb = data_src*alpha_src + data_bkg*(1 - alpha_src)
+
+    data_rgb = np.clip(data_rgb, 0, 1)*255
+    data_rgb = np.round(data_rgb).astype(np.uint8)
+
+    # Done
+    return data_rgb
 
 
 

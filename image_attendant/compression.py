@@ -5,7 +5,7 @@ import io
 import numpy as np
 
 from . import image_io
-from .utility import setup_uint8
+from . import utility
 
 
 def compress(data, fmt, **kwargs):
