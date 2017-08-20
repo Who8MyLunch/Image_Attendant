@@ -1,6 +1,5 @@
 # Image Attendant
 
-version number: 0.0.1
 author: Pierre V. Villeneuve
 
 ## Overview
