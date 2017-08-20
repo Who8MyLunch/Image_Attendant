@@ -1,16 +1,13 @@
-II_AA
-===============================
+# Image Attendant
 
 version number: 0.0.1
 author: Pierre V. Villeneuve
 
-Overview
---------
+## Overview
 
-A python package that can be installed with pip.
+A collection of image-processing functions that I use in many of my projects.
 
-Installation / Usage
---------------------
+## Installation
 
 To install use pip:
 
@@ -21,13 +18,7 @@ Or clone the repo:
 
     $ git clone https://github.com/who8mylunch/image_attendant.git
     $ python setup.py install
-    
-Contributing
-------------
 
-TBD
-
-Example
--------
+## Example
 
 TBD
