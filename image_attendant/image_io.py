@@ -26,7 +26,7 @@ def write(fp, data, fmt=None, **kwargs):
     File format is automatically determined from fp if it's a filename, otherwise you
     must specify format via fmt keyword, e.g. fmt = 'png'.
 
-    Parameter options: http://pillow.readthedocs.org/handbook/image-file-formats.html
+    Parameter options: http://pillow.readthedocs.io/en/4.2.x/handbook/image-file-formats.html
     """
     img = PIL.Image.fromarray(data)
     img.save(fp, format=fmt, **kwargs)

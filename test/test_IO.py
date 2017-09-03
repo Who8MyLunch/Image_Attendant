@@ -114,12 +114,15 @@ class TestReadWrite(unittest.TestCase):
     def test_read_write(self):
         files = self.path_Lena.glob('Lena*')
         for f in files:
-            img_in = imat.read(f)
+            if not 'jpg' in str(f):
+                img_in = imat.read(f)
 
-            f_out = self.path_data / f.name
-            imat.write(f_out, img_in)
+                f_out = self.path_data / f.name
+                imat.write(f_out, img_in)
 
-            # np.testing.assert_equal(img_in.shape[:2], shape_true)
+                img_test = imat.read(f_out)
+
+                np.testing.assert_equal(img_in, img_test, str(f))
 
 #------------------------------------------------
 
