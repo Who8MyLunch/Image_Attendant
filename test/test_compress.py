@@ -97,31 +97,27 @@ class TestReadWrite(unittest.TestCase):
         cleanup(self.clean)
 
 
-    def test_read(self):
+    def test_compress_png(self):
         files = self.path_Lena.glob('Lena*')
         for f in files:
             img_in = imat.read(f)
 
-    def test_shape(self):
+            buff = imat.compress(img_in, fmt='png')
+
+            img_test = imat.decompress(buff)
+
+            np.testing.assert_equal(img_in, img_test, str(f))
+
+    def test_compress_tiff(self):
         files = self.path_Lena.glob('Lena*')
-        shape_true = [512, 512]
         for f in files:
             img_in = imat.read(f)
 
-            np.testing.assert_equal(img_in.shape[:2], shape_true)
+            buff = imat.compress(img_in, fmt='tiff')
 
-    def test_read_write(self):
-        files = self.path_Lena.glob('Lena*')
-        for f in files:
-            if not 'jpg' in str(f):
-                img_in = imat.read(f)
+            img_test = imat.decompress(buff)
 
-                f_out = self.path_data / f.name
-                imat.write(f_out, img_in)
-
-                img_test = imat.read(f_out)
-
-                np.testing.assert_equal(img_in, img_test, str(f))
+            np.testing.assert_equal(img_in, img_test, str(f))
 
 #------------------------------------------------
 

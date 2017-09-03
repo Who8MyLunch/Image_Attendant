@@ -3,6 +3,7 @@ from __future__ import division, print_function, unicode_literals, absolute_impo
 import io
 
 import numpy as np
+import PIL.Image
 
 from . import image_io
 from . import utility
@@ -20,7 +21,7 @@ def compress(data, fmt, **kwargs):
     Parameter options: http://pillow.readthedocs.org/handbook/image-file-formats.html
     """
     # Enforce 8-byte data
-    data = setup_uint8(data)
+    data = utility.setup_uint8(data)
 
     fmt = fmt.lower()
     if fmt == 'jpg':
