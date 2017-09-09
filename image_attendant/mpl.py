@@ -1,10 +1,11 @@
 from __future__ import division, print_function, unicode_literals, absolute_import
 
 import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 
-from matplotlib.backends.backend_agg import FigureCanvasAgg
+try:
+    from matplotlib.backends.backend_agg import FigureCanvasAgg
+except ImportError:
+    FigureCanvasAgg = None
 
 from .utility import image_data_mode, setup_uint8
 from .compression import compress
@@ -16,6 +17,9 @@ def figure_to_image(fig, fmt='raw', dpi=None):
 
     See here for partial inspiration: https://gist.github.com/rduplain/1641344
     """
+
+    if not FigureCanvasAgg:
+        raise ImportError('Matplotlib is not installed')
 
     if dpi:
         dpi_original = fig.get_dpi()
