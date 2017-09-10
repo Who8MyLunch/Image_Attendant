@@ -2,6 +2,31 @@ from __future__ import division, print_function, unicode_literals, absolute_impo
 
 import numpy as np
 
+_dtypes_float = [np.float, np.float16, np.float32]
+_dtypes_int = [np.int, np.int8, np.int16, np.int32, np.uint8, np.uint16, np.uint32]
+
+
+def _is_float_type(data):
+    if type(data) == np.dtype:
+        dtype_data = data
+    else:
+        data = np.asarray(data)
+        dtype_data = data.dtype
+
+    return dtype_data in _dtypes_float
+
+
+def _is_integer_type(data):
+    if type(data) == np.dtype:
+        dtype_data = data
+    else:
+        data = np.asarray(data)
+        dtype_data = data.dtype
+
+    return dtype_data in _dtypes_int
+
+#------------------------------------------------
+
 
 def image_data_mode(data):
     """Determine image color mode compatible with PIL / Pillow
