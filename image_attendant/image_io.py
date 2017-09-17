@@ -51,14 +51,16 @@ def download(url, verbose=False):
     resp = requests.get(url)
     if not resp.ok:
         msg = 'Problem fetching data: {}'.format(resp.reason)
-        raise requests.RequestException(msg)
+        # raise requests.RequestException(msg)
+        raise IOError(msg)
 
-    # Binary compressed image data from response content.
+    # Binary compressed image data from response content
     data_comp = resp.content
 
-    # Compression format, e.g. 'image/jpeg' --> 'jpeg'
+    # Image compression format, e.g. 'image/jpeg' --> 'jpeg'
     fmt = resp.headers['content-type'].split('/')[1]
 
+    # Done
     return data_comp, fmt
 
 #------------------------------------------------
