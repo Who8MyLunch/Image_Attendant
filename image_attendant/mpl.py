@@ -3,6 +3,7 @@ from __future__ import division, print_function, unicode_literals, absolute_impo
 import numpy as np
 
 try:
+    import matplotlib.pyplot as plt
     from matplotlib.backends.backend_agg import FigureCanvasAgg
 except ImportError:
     FigureCanvasAgg = None
@@ -11,7 +12,7 @@ from .utility import image_data_mode, setup_uint8
 from .compression import compress
 
 
-def figure_to_image(fig, fmt='raw', dpi=None):
+def figure_to_image(fig, fmt='raw', dpi=None, close_figure=True):
     """Generate compressed-image representation of a Matplotlib figure.
     Nothing gets displayed to the screen.
 
@@ -30,8 +31,14 @@ def figure_to_image(fig, fmt='raw', dpi=None):
     buff, (num_samples, num_lines) = canvas.print_to_buffer()
     num_colors = 4
 
+    # Grab data from buffer
     data = np.frombuffer(buff, dtype=np.uint8)
     data.shape = num_lines, num_samples, num_colors
+
+    # Close the figure
+    if close_figure:
+        plt.close(fig)
+
 
     mode = image_data_mode(data)
     if mode.lower() != 'rgba':
@@ -40,17 +47,16 @@ def figure_to_image(fig, fmt='raw', dpi=None):
     if dpi:
         fig.set_dpi(dpi_original)
 
-    if mode == 'raw':
-        # Raw data
+    if fmt == 'raw':
+        # Return uncomprressed image byte data
         return data
     else:
-        # Compress
-        data_comp = compress(data, mode=mode, fmt=fmt)
-        return data_comp
+        # Return compressed data
+        return compress(data, mode=mode, fmt=fmt)
 
 
 
-def figure_to_file(fig, fname, fmt='png', dpi=None):
+def figure_to_file(fig, fname, fmt='png', dpi=None, close_figure=True):
     """Write selected figure to image file
     """
     b, e = os.path.splitext(fname)
@@ -62,10 +68,12 @@ def figure_to_file(fig, fname, fmt='png', dpi=None):
 
     f_out = b + e
 
-    data_comp = figure_to_image(fig, fmt=fmt, dpi=dpi)
+    data_comp = figure_to_image(fig, fmt=fmt, dpi=dpi, close_figure=close_figure)
 
     with open(f_out, 'wb') as fp:
         fp.write(data_comp)
+
+    # Done
 
 #------------------------------------------------
 

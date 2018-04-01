@@ -119,6 +119,7 @@ def rebin(data, factor, verbose=False):
     # Done.
     return data_new
 
+#------------------------------------------------
 
 if __name__ == '__main__':
     pass
