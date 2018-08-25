@@ -10,11 +10,11 @@ from . import utility
 
 
 def compress(data, fmt, **kwargs):
-    """Compress image, return data buffer.
+    """Compress image, return bytes buffer.
 
     fmt: 'png', 'jpeg', etc.
 
-    Alpha channel will be ignored if fmt == 'jpeg'.
+    Alpha channel will be collapsed if fmt == 'jpeg'.
 
     Returns a byte buffer of compressed data.
 
@@ -30,8 +30,7 @@ def compress(data, fmt, **kwargs):
     if fmt == 'jpeg':
         if data.ndim == 3:
             if data.shape[2] == 4:
-                # Discard alpha channel for JPEG compression.
-                data = data[:, :, :2]
+                data = utility.collapse_alpha(data)
 
     buff = io.BytesIO()
     image_io.write(buff, data, fmt, **kwargs)
@@ -43,7 +42,7 @@ def compress(data, fmt, **kwargs):
 
 
 def decompress(data_comp):
-    """Decompress image from supplied byte data.
+    """Decompress image from supplied buffer byte data.
     """
     buff = io.BytesIO(data_comp)
     img = PIL.Image.open(buff)

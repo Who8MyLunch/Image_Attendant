@@ -138,7 +138,6 @@ def data_url(data_comp, fmt):
 def iter_tiles(img, size):
     """Generator over image tiles
     """
-
     num_lines, num_samples = img.shape[:2]
 
     num_chunk_lines = int(num_lines/size)

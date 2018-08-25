@@ -77,6 +77,7 @@ def _resize(data, factor, axis=0, verbose=False):
     return data_new
 
 
+
 def rebin(data, factor, verbose=False):
     """
     Resize image by integer amount.

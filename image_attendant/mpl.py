@@ -48,7 +48,7 @@ def figure_to_image(fig, fmt='raw', dpi=None, close_figure=True):
         fig.set_dpi(dpi_original)
 
     if fmt == 'raw':
-        # Return uncomprressed image byte data
+        # Return 3D array (uint8) image data
         return data
     else:
         # Return compressed data
