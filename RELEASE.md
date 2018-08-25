@@ -24,6 +24,7 @@ python setup.py sdist bdist_wheel
 twine upload dist/*
 
 python setup.py clean --all
+rm -rf dist
 ```
 
 
