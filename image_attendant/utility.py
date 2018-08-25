@@ -2,6 +2,8 @@ from __future__ import division, print_function, unicode_literals, absolute_impo
 
 import imghdr
 import struct
+import io
+
 import numpy as np
 
 _dtypes_float = [np.float, np.float16, np.float32]
