@@ -1,5 +1,7 @@
 from __future__ import division, print_function, unicode_literals, absolute_import
 
+import imghdr
+import struct
 import numpy as np
 
 _dtypes_float = [np.float, np.float16, np.float32]
@@ -115,6 +117,52 @@ def collapse_alpha(data_rgba):
 
     # Done
     return data_rgb
+
+
+
+def get_image_size(data):
+    """Determine the image type of fhandle and return its size
+    """
+    if len(data) < 24:
+        return
+
+    kind = imghdr.what(None, h=data)
+
+    if kind == 'png':
+        check = struct.unpack('>i', data[4:8])[0]
+        if check != 0x0d0a1a0a:
+            return
+        width, height = struct.unpack('>ii', data[16:24])
+
+    elif kind == 'gif':
+        width, height = struct.unpack('<HH', data[6:10])
+
+    elif kind == 'jpeg':
+        buff = io.BytesIO(data)
+        try:
+            buff.seek(0) # Read 0xff next
+            size = 2
+            ftype = 0
+            while not 0xc0 <= ftype <= 0xcf:
+                buff.seek(size, 1)
+                byte = buff.read(1)
+
+                while ord(byte) == 0xff:
+                    byte = buff.read(1)
+
+                ftype = ord(byte)
+                size = struct.unpack('>H', buff.read(2))[0] - 2
+
+            # We are at a SOFn block
+            buff.seek(1, 1)  # Skip `precision' byte.
+            height, width = struct.unpack('>HH', buff.read(4))
+        except Exception: #IGNORE:W0703
+            return
+    else:
+        return
+
+    # Done
+    return kind, width, height
 
 
 
