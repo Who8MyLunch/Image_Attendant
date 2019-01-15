@@ -2,7 +2,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy as np
-from . import utility
+from .. import utility
 
 
 def _resize(data, factor, axis=0, verbose=False):
@@ -54,7 +54,6 @@ def _resize(data, factor, axis=0, verbose=False):
 
     if factor < 1:
         # Co-add along specified image axis.
-
         coadd = int(1/factor)
         for p in range(0, coadd):
             if axis == 0:
@@ -79,8 +78,7 @@ def _resize(data, factor, axis=0, verbose=False):
 
 
 def rebin(data, factor, verbose=False):
-    """
-    Resize image by integer amount.
+    """Resize image by integer amount.
     Pixel-averaging for shrinking, nearest-neighbor for growing.
 
     size_factor: integer or 2-tuple of X and Y integer scale factors.
@@ -123,4 +121,29 @@ def rebin(data, factor, verbose=False):
 #------------------------------------------------
 
 if __name__ == '__main__':
-    pass
+    """Simple example
+    """
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    num_lines, num_samples = 9, 21
+
+    print(num_lines, num_samples)
+    print()
+
+    img_A = np.random.uniform(size=(num_lines, num_samples))
+    img_B = rebin(img_A, 0.5, verbose=True)
+    print()
+    img_C = rebin(img_B, 2, verbose=True)
+    print()
+
+    fig, (ax1, ax2, ax3) = plt.subplots(nrows=3)
+    # fig.clear()
+
+    ax1.imshow(img_A)
+    ax2.imshow(img_B)
+    ax3.imshow(img_C)
+
+    plt.tight_layout()
+    plt.show()
+
