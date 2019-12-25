@@ -2,7 +2,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy as np
-from .. import utility
+from . import utility
 
 
 def _resize(data, factor, axis=0, verbose=False):
