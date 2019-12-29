@@ -1,6 +1,8 @@
 from __future__ import division, print_function, unicode_literals, absolute_import
 
+import os
 import numpy as np
+
 
 try:
     import matplotlib.pyplot as plt
