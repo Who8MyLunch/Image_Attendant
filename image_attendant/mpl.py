@@ -18,6 +18,14 @@ def figure_to_image(fig, fmt='raw', dpi=None, close_figure=True):
     """Generate compressed-image representation of a Matplotlib figure.
     Nothing gets displayed to the screen.
 
+    NOTE: Make sure to create figure and axes like this:
+        fig = plt.Figure(figsize=figsize, dpi=dpi)
+        ax = fig.gca()
+
+    DO NOT USE subplots() !!!!!
+
+    https://matplotlib.org/3.1.1/gallery/user_interfaces/canvasagg.html
+
     See here for partial inspiration: https://gist.github.com/rduplain/1641344
     """
 
@@ -30,6 +38,7 @@ def figure_to_image(fig, fmt='raw', dpi=None, close_figure=True):
 
     # Render figure to buffer as uncompressed RGBA
     canvas = FigureCanvasAgg(fig)
+    canvas.draw()
     buff, (num_samples, num_lines) = canvas.print_to_buffer()
     num_colors = 4
 
@@ -40,7 +49,6 @@ def figure_to_image(fig, fmt='raw', dpi=None, close_figure=True):
     # Close the figure
     if close_figure:
         plt.close(fig)
-
 
     mode = image_data_mode(data)
     if mode.lower() != 'rgba':
