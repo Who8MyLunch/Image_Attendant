@@ -27,6 +27,10 @@ def figure_to_image(fig, fmt='raw', dpi=None, close_figure=True):
     https://matplotlib.org/3.1.1/gallery/user_interfaces/canvasagg.html
 
     See here for partial inspiration: https://gist.github.com/rduplain/1641344
+    
+    
+    
+    Also see for more ideas: https://github.com/Zulko/moviepy/blob/master/moviepy/video/io/bindings.py
     """
 
     if not FigureCanvasAgg:
